@@ -1,0 +1,18 @@
+{
+  _id: ObjectId('6ae64bc2f668289815b53fda'),
+  name: 'DDR4 RAM',
+  category: 'Parts',
+  description: '',
+  link: '',
+  location: 'MA',
+  imageUrl: '',
+  totalQty: NumberInt('15'),
+  availableQty: NumberInt('15'),
+  maxPerAttendee: NumberInt('1'),
+  trackUnits: false,
+  archived: false,
+  createdAt: ISODate('2026-10-31T20:12:50.970Z'),
+  updatedAt: ISODate('2026-10-31T20:12:50.970Z'),
+  __v: NumberInt('0')
+}
+key-val
