@@ -1,0 +1,4 @@
+MONGODB_URI=put_mongo_uri_here
+MONGODB_DATABASE=test
+MONGODB_COLLECTION=hardwareitems
+DISCORD_TOKEN=put_your_bot_token_here
