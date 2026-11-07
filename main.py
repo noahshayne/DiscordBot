@@ -4,6 +4,7 @@ import asyncio
 import logging
 import os
 import json
+import re
 
 import discord
 from discord import app_commands
@@ -51,6 +52,14 @@ def _get_available_quantity(name: str) -> int | float:
 	return item_json["availableQty"]
 
 
+def _get_name_suggestions(current: str) -> list[str]:
+	"""Find hardware names that start with the user's autocomplete input."""
+	search_text = current.strip()
+	name_filter = {"name": {"$regex": f"^{re.escape(search_text)}", "$options": "i"}}
+	names = _hardware_collection().find(name_filter, {"_id": 0, "name": 1}).sort("name", 1).limit(3)
+	return [name for item in names if isinstance(name := item.get("name"), str)]
+
+
 @bot.event
 async def on_ready() -> None:
 	logging.info("Logged in as %s (ID: %s)", bot.user, bot.user.id)
@@ -96,6 +105,21 @@ async def inventory(interaction: discord.Interaction, name: str) -> None:
 	await interaction.response.send_message(
 		f"**{name}** has **{available_quantity}** available."
 	)
+
+
+@inventory.autocomplete("name")
+async def inventory_name_autocomplete(
+	interaction: discord.Interaction,
+	current: str,
+) -> list[app_commands.Choice[str]]:
+	"""Provide hardware name suggestions while the user types."""
+	try:
+		names = await asyncio.to_thread(_get_name_suggestions, current)
+	except (PyMongoError, RuntimeError):
+		logging.exception("MongoDB autocomplete search failed")
+		return []
+
+	return [app_commands.Choice(name=name, value=name) for name in names]
 
 
 @bot.tree.command(name="hardwarelist", description="Get the hardware inventory link")
