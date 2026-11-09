@@ -76,7 +76,7 @@ async def on_ready() -> None:
 	except (ValueError, discord.DiscordException):
 		logging.exception("Failed to sync app commands")
 
-
+#Inventory command
 @bot.tree.command(name="inventory", description="Get available hardware quantity")
 @app_commands.describe(name="Exact hardware item name")
 async def inventory(interaction: discord.Interaction, name: str) -> None:
@@ -103,10 +103,11 @@ async def inventory(interaction: discord.Interaction, name: str) -> None:
 		return
 
 	await interaction.response.send_message(
-		f"**{name}** has **{available_quantity}** available."
-	)
+		f"**{name}** has **{available_quantity}** available.",
+		ephemeral=True,
+	) #Discoird output of inventory command is only visible to user who ran it
 
-
+#Autocomplete for inventory command
 @inventory.autocomplete("name")
 async def inventory_name_autocomplete(
 	interaction: discord.Interaction,
@@ -125,7 +126,7 @@ async def inventory_name_autocomplete(
 @bot.tree.command(name="hardwarelist", description="Get the hardware inventory link")
 async def hardwarelist(interaction: discord.Interaction) -> None:
 	"""Send a link to the hardware inventory/resource list."""
-	await interaction.response.send_message("HI")
+	await interaction.response.send_message("HI", ephemeral=True)
 
 
 def main() -> None:
