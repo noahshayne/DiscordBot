@@ -1,0 +1,15 @@
+{
+  _id: ObjectId('xxxxx'),
+  name: 'Noah',
+  email: '',
+  passwordHash: ''
+  role: 'admin',
+  createdAt: ISODate('2026-10-04T16:56:25.981Z'),
+  updatedAt: ISODate('2026-11-12T15:05:12.208Z'),
+  __v: NumberInt('0'),
+  checkedIn: false,
+  emailVerified: true,
+  judgeInvitePending: false,
+  marketingEmailConsent: false,
+  discordId: 'xxxx'
+}

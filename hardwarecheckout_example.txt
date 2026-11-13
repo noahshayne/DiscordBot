@@ -1,0 +1,17 @@
+{
+  _id: ObjectId('6af65054e54d2cc0bb9a47b8'),
+  user: ObjectId('6ac285391032ad25015640e6'),
+  team: null,
+  teamName: 'Example Team',
+  teamChangeNotifiedAt: null,
+  item: ObjectId('6ae64bc2f668289815b53fda'),
+  checkedOutBy: ObjectId('6ac285391032ad25015640e6'),
+  checkedOutAt: ISODate('2026-11-12T18:45:00.000Z'),
+  dueAt: ISODate('2026-11-13T18:45:00.000Z'),
+  returnedAt: null,
+  returnedTo: null,
+  notes: 'Mock hardware checkout',
+  slot: NumberInt('1'),
+  createdAt: ISODate('2026-11-12T18:45:00.000Z'),
+  updatedAt: ISODate('2026-11-12T18:45:00.000Z')
+}
