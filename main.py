@@ -19,8 +19,10 @@ load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 MONGODB_URI = os.getenv("MONGODB_URI") or os.getenv("MONGO_URI")
-MONGODB_DATABASE = os.getenv("MONGODB_DATABASE", "hardware_bot")
-MONGODB_COLLECTION = os.getenv("MONGODB_COLLECTION", "hardwareitems")
+MONGODB_DATABASE = "test"
+HARDWARE_ITEMS = "hardwareitems"
+COLLECTION_CHECKOUTS = "hardwarecheckouts"
+USER_COLLECTION = "users"
 
 
 
@@ -37,7 +39,7 @@ mongo_client: MongoClient | None = MongoClient(MONGODB_URI) if MONGODB_URI else 
 def _hardware_collection() -> Collection:
 	if mongo_client is None:
 		raise RuntimeError("MONGODB_URI is not set. Set it in your environment or .env.")
-	return mongo_client[MONGODB_DATABASE][MONGODB_COLLECTION]
+	return mongo_client[MONGODB_DATABASE][HARDWARE_ITEMS]
 
 
 def checkIfDiscordLinked(discordIDArg: str) -> object | None:
@@ -47,7 +49,7 @@ def checkIfDiscordLinked(discordIDArg: str) -> object | None:
 		raise RuntimeError("MONGODB_URI is not set. Set it in your environment or .env.")
 
 	# The first  find_one argument filters for finding a document; the second filters the key-value output of document returned
-	user = mongo_client[MONGODB_DATABASE]["users"].find_one(
+	user = mongo_client[MONGODB_DATABASE][USER_COLLECTION].find_one(
 		{"discordId": discordIDArg},
 		{"_id": 1},
 	)
@@ -60,8 +62,8 @@ def _get_checked_out_item_names(user_id: object) -> list[str]:
 	if mongo_client is None:
 		raise RuntimeError("MONGODB_URI is not set. Set it in your environment or .env.")
 
-	checkouts = mongo_client[MONGODB_DATABASE]["hardwarecheckouts"].find({"user": user_id})
-	item_collection = mongo_client[MONGODB_DATABASE]["hardwareitems"]
+	checkouts = mongo_client[MONGODB_DATABASE][COLLECTION_CHECKOUTS].find({"user": user_id})
+	item_collection = mongo_client[MONGODB_DATABASE][HARDWARE_ITEMS]
 	item_names: list[str] = []
 
 	for checkout in checkouts:
@@ -201,11 +203,6 @@ async def checkedout(interaction: discord.Interaction) -> None:
 		ephemeral=True,
 	)
 
-
-@bot.tree.command(name="hardwarelist", description="Get the hardware inventory link")
-async def hardwarelist(interaction: discord.Interaction) -> None:
-	"""Send a link to the hardware inventory/resource list."""
-	await interaction.response.send_message("HI", ephemeral=True)
 
 
 def main() -> None:
