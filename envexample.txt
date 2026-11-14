@@ -2,3 +2,9 @@ MONGODB_URI=put_mongo_uri_here
 MONGODB_DATABASE=test
 MONGODB_COLLECTION=hardwareitems
 DISCORD_TOKEN=put_your_bot_token_here
+EVENT_TIMEZONE=America/New_York
+# One event per line: local-time-start | local-time-end | name | location
+EVENT_SCHEDULE="
+2026-11-13 18:30 | 2026-11-13 19:30 | Participant Check-In | Campus Center Auditorium
+2026-11-13 19:30 | 2026-11-13 20:30 | Opening Ceremony | Campus Center Auditorium
+"
